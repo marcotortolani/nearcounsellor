@@ -12,8 +12,8 @@ export function Footer() {
         <div className="text-center">
             <h3 className="font-headline text-2xl font-bold mb-2">{t('contact_us_title')}</h3>
             <p className="text-muted-foreground mb-4">{t('contact_us_description')}</p>
-            <a href="mailto:Info@nearcounsellour.co.nz" className="text-primary hover:underline font-bold text-lg">
-                Info@nearcounsellor.co.nz
+            <a href="mailto:info@nearcounselling.co.nz" className="text-primary hover:underline font-bold text-lg">
+                info@nearcounselling.co.nz
             </a>
         </div>
         <Separator className="my-8" />

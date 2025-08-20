@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { LanguageProvider } from '@/contexts/language-context';
 
 export const metadata: Metadata = {
-  title: 'Near Counsellor',
+  title: 'Near Counselling',
   description: 'A safe space for therapy and personal growth.',
 };
 
