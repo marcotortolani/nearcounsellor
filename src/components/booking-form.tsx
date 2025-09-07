@@ -16,24 +16,28 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { countries, getCountryFlag } from '@/lib/countries'
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from '@/components/ui/select'
+// import { countries, getCountryFlag } from '@/lib/countries'
 import { useToast } from '@/hooks/use-toast'
 import { useLanguage } from '@/contexts/language-context'
 
+const messageMaxLength = 500
+
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  country: z.string().min(2, { message: 'Please select a country.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   message: z
     .string()
-    .min(10, { message: 'Message must be at least 10 characters.' }),
+    .min(10, { message: 'Message must be at least 10 characters.' })
+    .max(messageMaxLength, {
+      message: `Message must be less than ${messageMaxLength} characters.`,
+    }),
 })
 
 export function BookingForm() {
@@ -44,16 +48,16 @@ export function BookingForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      country: '',
+      // country: '',
       email: '',
       message: '',
     },
   })
 
-  function handleFormSubmit(values: z.infer<typeof formSchema>) {
-    async function handleSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
+  const messageLength = form.watch('message')?.length
 
+  const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
@@ -65,23 +69,27 @@ export function BookingForm() {
           subject: 'Booking a session',
           name: values.name,
           email: values.email,
-          country: values.country,
+          // country: values.country,
           message: values.message,
         }),
       })
+
       const result = await response.json()
       if (result.success) {
-        console.log(result)
+        toast({
+          title: t('booking_form_submitted_title'),
+          description: t('booking_form_submitted_description'),
+        })
+        form.reset()
       }
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: t('booking_form_error_title'),
+        description: t('booking_form_error_description'),
+        variant: 'destructive',
+      })
     }
-
-    handleSubmit(values)
-
-    toast({
-      title: t('booking_form_submitted_title'),
-      description: t('booking_form_submitted_description'),
-    })
-    form.reset()
   }
 
   return (
@@ -109,6 +117,22 @@ export function BookingForm() {
           />
           <FormField
             control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('booking_form_email_label')}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t('booking_form_email_placeholder')}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* <FormField
+            control={form.control}
             name="country"
             render={({ field }) => (
               <FormItem>
@@ -135,31 +159,20 @@ export function BookingForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('booking_form_email_label')}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={t('booking_form_email_placeholder')}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
+              <div className=" flex items-start justify-between">
+                <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
+                <span className="text-xs text-muted-foreground">
+                  {messageLength}/{messageMaxLength}
+                </span>
+              </div>
               <FormControl>
                 <Textarea
                   placeholder={t('booking_form_message_placeholder')}

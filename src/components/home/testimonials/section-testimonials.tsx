@@ -28,15 +28,8 @@ export default function SectionTestimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
 
   useEffect(() => {
-    const translatedTestimonials = baseTestimonials.map(
-      (testimonial, index) => ({
-        ...testimonial,
-        name: t(`testimonial${index + 1}_name`),
-        message: t(`testimonial${index + 1}_message`),
-      })
-    )
-    setTestimonials(translatedTestimonials)
-  }, [t])
+    setTestimonials(baseTestimonials)
+  }, [])
 
   const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
     const newTestimonial: Testimonial = {
@@ -92,7 +85,7 @@ export default function SectionTestimonials() {
 
         <Separator className="my-16" />
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto bg-card rounded-lg p-8">
           <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">
             {t('share_your_experience_title')}
           </h3>

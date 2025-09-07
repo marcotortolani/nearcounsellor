@@ -28,12 +28,18 @@ import { useToast } from '@/hooks/use-toast'
 import { useLanguage } from '@/contexts/language-context'
 import { Testimonial } from './testimonial-card'
 
+const messageMaxLength = 500
+
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   country: z.string().min(2, { message: 'Please select a country.' }),
+  email: z.string().email({ message: 'Please enter a valid email.' }),
   message: z
     .string()
-    .min(10, { message: 'Message must be at least 10 characters.' }),
+    .min(10, { message: 'Message must be at least 10 characters.' })
+    .max(messageMaxLength, {
+      message: `Message must be less than ${messageMaxLength} characters.`,
+    }),
 })
 
 interface TestimonialFormProps {
@@ -49,16 +55,17 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
     defaultValues: {
       name: '',
       country: '',
+      email: '',
       message: '',
     },
   })
 
-  function handleFormSubmit(values: z.infer<typeof formSchema>) {
+  const messageLength = form.watch('message')?.length
+
+  const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
     onSubmit({ ...values })
 
-    async function handleSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
-
+    try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
@@ -76,17 +83,19 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
       })
       const result = await response.json()
       if (result.success) {
-        console.log(result)
+        toast({
+          title: t('testimonial_form_submitted_title'),
+          description: t('testimonial_form_submitted_description'),
+        })
+        form.reset()
       }
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: t('testimonial_form_error_title'),
+        description: t('testimonial_form_error_description'),
+      })
     }
-
-    handleSubmit(values)
-
-    toast({
-      title: t('testimonial_form_submitted_title'),
-      description: t('testimonial_form_submitted_description'),
-    })
-    form.reset()
   }
 
   return (
@@ -145,10 +154,32 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
 
         <FormField
           control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t('booking_form_email_label')}</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={t('booking_form_email_placeholder')}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
+              <div className=" flex items-start justify-between">
+                <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
+                <span className="text-xs text-muted-foreground">
+                  {messageLength}/{messageMaxLength}
+                </span>
+              </div>
               <FormControl>
                 <Textarea
                   placeholder={t('testimonial_form_message_placeholder')}

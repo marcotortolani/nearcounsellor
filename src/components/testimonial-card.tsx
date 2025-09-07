@@ -1,16 +1,15 @@
-
 import { Card, CardContent } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { getCountryFlag } from '@/lib/countries'
 import { cn } from '@/lib/utils'
 
 export type Testimonial = {
   name: string
   email: string
-  country: 'AR' | 'BR' | 'NZ'
+  country: string
   message: string
-  photo?: string | null
-  photoHint?: string
+  // photo?: string | null
+  // photoHint?: string
   date: string // YYYY-MM-DD
   lang: 'en' | 'es' | 'pt'
 }
@@ -40,7 +39,7 @@ export function TestimonialCard({
   testimonial,
   className,
 }: TestimonialCardProps) {
-  const { name, country, message, photo, photoHint, email } = testimonial
+  const { name, country, message, email } = testimonial
   const nameInitial = name ? name.charAt(0).toUpperCase() : 'A'
 
   return (
@@ -49,7 +48,7 @@ export function TestimonialCard({
         <p className="text-muted-foreground flex-grow mb-6">"{message}"</p>
         <div className="flex items-center gap-4">
           <Avatar>
-            {photo ? (
+            {/* {photo ? (
               <AvatarImage
                 src={photo}
                 alt={name}
@@ -61,7 +60,7 @@ export function TestimonialCard({
                 alt={name}
                 data-ai-hint={photoHint || 'person smiling'}
               />
-            )}
+            )} */}
             <AvatarFallback>{nameInitial}</AvatarFallback>
           </Avatar>
           <div>

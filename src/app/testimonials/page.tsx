@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import {
@@ -17,31 +17,25 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-import test from 'node:test'
+import { TestimonialForm } from '@/components/testimonial-form'
+import { Separator } from "@radix-ui/react-dropdown-menu"
 
 type SortOrder = 'newest' | 'oldest'
 
 export default function TestimonialsPage() {
   const { t } = useLanguage()
-  const [testimonials, setTestimonials] = React.useState<Testimonial[]>([])
-  const [filteredTestimonials, setFilteredTestimonials] = React.useState<
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+  const [filteredTestimonials, setFilteredTestimonials] = useState<
     Testimonial[]
   >([])
-  const [languageFilter, setLanguageFilter] = React.useState('all')
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>('newest')
+  const [languageFilter, setLanguageFilter] = useState('all')
+  const [sortOrder, setSortOrder] = useState<SortOrder>('newest')
 
-  React.useEffect(() => {
-    const translatedTestimonials = baseTestimonials.map(
-      (testimonial, index) => ({
-        ...testimonial,
-        name: testimonial.name, // Keep original name
-        message: testimonial.message, // Keep original message
-      })
-    )
-    setTestimonials(translatedTestimonials)
-  }, [t])
+  useEffect(() => {
+    setTestimonials(baseTestimonials)
+  }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     let result = [...testimonials]
 
     if (languageFilter !== 'all') {
@@ -56,6 +50,15 @@ export default function TestimonialsPage() {
 
     setFilteredTestimonials(result)
   }, [testimonials, languageFilter, sortOrder])
+
+  const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
+    const newTestimonial: Testimonial = {
+      ...testimonial,
+      lang: 'en', // default lang for new testimonials
+      date: new Date().toISOString().split('T')[0],
+    }
+    setTestimonials((prev) => [newTestimonial, ...prev])
+  }
 
   const recentTestimonials = filteredTestimonials.slice(0, 3)
   const olderTestimonials = filteredTestimonials.slice(3)
@@ -128,6 +131,15 @@ export default function TestimonialsPage() {
             </div>
           ))}
         </div>
+
+        <Separator className="my-16" />
+
+        <div className="max-w-2xl mx-auto bg-card rounded-lg p-8">
+          <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">
+            {t('share_your_experience_title')}
+          </h3>
+          <TestimonialForm onSubmit={addTestimonial} />
+        </div>
       </main>
       <Footer />
     </div>
@@ -150,12 +162,12 @@ export default function TestimonialsPage() {
 
 // export default function TestimonialsPage() {
 //   const { t } = useLanguage()
-//   const [testimonials, setTestimonials] = React.useState<Testimonial[]>([])
-//   const [filteredTestimonials, setFilteredTestimonials] = React.useState<Testimonial[]>([])
-//   const [languageFilter, setLanguageFilter] = React.useState('all')
-//   const [sortOrder, setSortOrder] = React.useState<SortOrder>('newest')
+//   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+//   const [filteredTestimonials, setFilteredTestimonials] = useState<Testimonial[]>([])
+//   const [languageFilter, setLanguageFilter] = useState('all')
+//   const [sortOrder, setSortOrder] = useState<SortOrder>('newest')
 
-//   React.useEffect(() => {
+//   useEffect(() => {
 //     const translatedTestimonials = allTestimonials.map((testimonial, index) => ({
 //       ...testimonial,
 //       name: t(`testimonial${index + 1}_name`),
@@ -164,7 +176,7 @@ export default function TestimonialsPage() {
 //     setTestimonials(translatedTestimonials);
 //   }, [t]);
 
-//   React.useEffect(() => {
+//   useEffect(() => {
 //     let result = [...testimonials]
 
 //     if (languageFilter !== 'all') {
