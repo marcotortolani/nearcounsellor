@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { useLanguage } from '@/contexts/language-context'
+import { BookingForm } from '@/components/booking-form'
 
 export default function BookingPage() {
-  const { t } = useLanguage();
+  const { t } = useLanguage()
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -17,19 +18,28 @@ export default function BookingPage() {
             {t('booking_page_title')}
           </h1>
           <p className="text-lg text-muted-foreground mb-8">
-            {t('booking_page_description')}
+            {t('booking_page_description_form')}
           </p>
-          
-          <div className="bg-card p-4 rounded-lg shadow-sm" style={{minHeight: '700px'}}>
+
+          <div
+            className="bg-card p-4 rounded-lg shadow-sm"
+            style={{ minHeight: '300px' }}
+          >
+            <BookingForm />
             {/* Placeholder for Calendly embed */}
-            <div className="flex items-center justify-center h-full border-2 border-dashed rounded-lg">
-                <p className="text-muted-foreground">{t('booking_page_calendly_placeholder')}</p>
-            </div>
+            {/* <div className="flex items-center justify-center h-full border-2 border-dashed rounded-lg">
+              <p className="text-muted-foreground">
+                {t('booking_page_calendly_placeholder')}
+              </p>
+            </div> */}
           </div>
 
           <p className="text-muted-foreground mt-8">
             {t('booking_page_contact_prompt_start')}{' '}
-            <Link href="/#contact" className="text-primary hover:underline">
+            <Link
+              href="mailto:info@nearcounselling.co.nz"
+              className="text-primary hover:underline"
+            >
               {t('booking_page_contact_prompt_link')}
             </Link>
             .

@@ -26,21 +26,17 @@ import {
 import { countries, getCountryFlag } from '@/lib/countries'
 import { useToast } from '@/hooks/use-toast'
 import { useLanguage } from '@/contexts/language-context'
-import { Testimonial } from './testimonial-card'
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   country: z.string().min(2, { message: 'Please select a country.' }),
+  email: z.string().email({ message: 'Please enter a valid email.' }),
   message: z
     .string()
     .min(10, { message: 'Message must be at least 10 characters.' }),
 })
 
-interface TestimonialFormProps {
-  onSubmit: (data: Omit<Testimonial, 'lang' | 'date'>) => void
-}
-
-export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
+export function BookingForm() {
   const { toast } = useToast()
   const { t } = useLanguage()
 
@@ -49,13 +45,12 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
     defaultValues: {
       name: '',
       country: '',
+      email: '',
       message: '',
     },
   })
 
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
-    onSubmit({ ...values })
-
     async function handleSubmit(values: z.infer<typeof formSchema>) {
       console.log(values)
 
@@ -67,9 +62,9 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
         },
         body: JSON.stringify({
           access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-          subject: 'New testimonial',
+          subject: 'Booking a session',
           name: values.name,
-          email: '',
+          email: values.email,
           country: values.country,
           message: values.message,
         }),
@@ -83,8 +78,8 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
     handleSubmit(values)
 
     toast({
-      title: t('testimonial_form_submitted_title'),
-      description: t('testimonial_form_submitted_description'),
+      title: t('booking_form_submitted_title'),
+      description: t('booking_form_submitted_description'),
     })
     form.reset()
   }
@@ -142,6 +137,22 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t('booking_form_email_label')}</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={t('booking_form_email_placeholder')}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -151,7 +162,7 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
               <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder={t('testimonial_form_message_placeholder')}
+                  placeholder={t('booking_form_message_placeholder')}
                   className="resize-none"
                   rows={5}
                   {...field}
@@ -163,7 +174,7 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
         />
 
         <Button type="submit" size="lg" className="w-full">
-          {t('testimonial_form_submit_button')}
+          {t('submit_session_button')}
         </Button>
       </form>
     </Form>
