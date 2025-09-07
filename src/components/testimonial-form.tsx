@@ -76,7 +76,7 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
           access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
           subject: 'New testimonial',
           name: values.name,
-          email: '',
+          email: values.email,
           country: values.country,
           message: values.message,
         }),
