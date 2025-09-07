@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Image from 'next/image'
+
 import {
   // HeartHandshake,
   // Target,
@@ -28,6 +29,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import SectionTestimonials from '@/components/home/testimonials/section-testimonials'
+import SectionFAQS from '@/components/home/faqs/section-faqs'
 
 export default function Home() {
   const { t } = useLanguage()
@@ -208,16 +210,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="why" className="py-16 md:py-24 bg-card">
-          <div className="container mx-auto px-4 text-center max-w-3xl">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold mb-4">
-              {t('why_i_did_this_title')}
-            </h2>
-            <p className="text-muted-foreground text-lg whitespace-pre-line">
-              {t('why_i_did_this_description')}
-            </p>
-          </div>
-        </section>
+        <SectionFAQS />
         <SectionTestimonials />
       </main>
       <Footer />
