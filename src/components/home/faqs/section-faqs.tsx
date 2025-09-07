@@ -17,7 +17,7 @@ const CollapsibleItem = ({
   onToggle: () => void
 }) => {
   return (
-    <div className="container mx-auto px-4 text-start max-w-3xl">
+    <div className="container mx-auto px-4 text-start max-w-3xl ">
       <div
         className="flex items-start justify-between cursor-pointer group"
         onClick={onToggle}
@@ -34,10 +34,10 @@ const CollapsibleItem = ({
 
       <div
         className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'max-h-fit opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <p className="text-muted-foreground text-lg whitespace-pre-line pb-4">
+        <p className="text-muted-foreground text-lg whitespace-pre-line py-2">
           {description}
         </p>
       </div>
