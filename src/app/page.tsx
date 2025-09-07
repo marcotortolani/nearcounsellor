@@ -95,7 +95,9 @@ export default function Home() {
                   {t('about_description')}
                 </p>
                 <Button size="lg" asChild>
-                  <a href="#contact">{t('get_in_touch_button')}</a>
+                  <a href="mailto:info@nearcounselling.co.nz">
+                    {t('get_in_touch_button')}
+                  </a>
                 </Button>
               </div>
             </div>
