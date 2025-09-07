@@ -212,8 +212,8 @@ export default function Home() {
           </div>
         </section>
 
-        <SectionFAQS />
         <SectionTestimonials />
+        <SectionFAQS />
       </main>
       <Footer />
     </div>
