@@ -21,7 +21,7 @@ export function Header() {
           <span className="font-headline text-xl md:text-2xl font-bold text-primary">
             {t('site_title')}
           </span>
-          <span className="-mt-2 md:text-lg font-light ">
+          <span className="-mt-2 md:text-lg font-light text-center w-full tracking-wider italic ">
             {t('site_slogan')}
           </span>
         </Link>
