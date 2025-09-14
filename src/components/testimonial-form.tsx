@@ -78,6 +78,7 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
           name: values.name,
           email: values.email,
           country: values.country,
+          date: new Date().toISOString().split('T')[0],
           message: values.message,
         }),
       })

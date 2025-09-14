@@ -49,7 +49,7 @@ export default function Home() {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="relative flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         <section id="about" className="py-16 md:py-24">
@@ -215,6 +215,14 @@ export default function Home() {
         <SectionTestimonials />
         <SectionFAQS />
       </main>
+      <div className=" lg:hidden z-50 w-full px-4 py-8 sticky bottom-0 flex items-center justify-end ">
+        <Button
+          asChild
+          className=" bg-primary-foreground text-neutral-100 hover:bg-primary-foreground/90 shadow-black/60 shadow-md "
+        >
+          <Link href="/booking">{t('book_session_button')}</Link>
+        </Button>
+      </div>
       <Footer />
     </div>
   )

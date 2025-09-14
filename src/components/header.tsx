@@ -1,22 +1,36 @@
 'use client'
 
 import Link from 'next/link'
-import { Languages } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
+
 import { useLanguage } from '@/contexts/language-context'
 
 export function Header() {
-  const { t, setLanguage } = useLanguage()
+  const { t, language, setLanguage } = useLanguage()
+
+  const languages = [
+    {
+      code: 'en',
+      flag: '/images/flags/new-zealand-flag-rounded.png',
+      name: 'New Zealand',
+    },
+    {
+      code: 'pt',
+      flag: '/images/flags/brasil-flag-rounded.png',
+      name: 'Brazil',
+    },
+    {
+      code: 'es',
+      flag: '/images/flags/argentina-flag-rounded.png',
+      name: 'Argentina',
+    },
+  ]
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="container mx-auto flex h-16 items-center justify-between px-6">
         <Link href="/" className="flex flex-col items-start ">
           <span className="font-headline text-xl md:text-2xl font-bold text-primary">
             {t('site_title')}
@@ -56,31 +70,36 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Button asChild>
+          <Button asChild className=" hidden lg:flex">
             <Link href="/booking">{t('book_session_button')}</Link>
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Languages className="h-[1.2rem] w-[1.2rem]" />
-                <span className="sr-only">Change language</span>
+
+          <div className="flex items-center gap-2">
+            {languages.map((lang) => (
+              <Button
+                key={lang.code}
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  'rounded-full w-6 h-6 lg:w-8 lg:h-8 transition-all duration-200 ease-in-out p-0 overflow-hidden',
+                  language === lang.code
+                    ? 'ring-2 ring-primary ring-offset-2 ring-offset-background'
+                    : 'hover:scale-110 opacity-50 hover:opacity-100'
+                )}
+                onClick={() => setLanguage(lang.code as 'en' | 'es' | 'pt')}
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={lang.flag}
+                    alt={`${lang.name} flag`}
+                    fill
+                    objectFit="cover"
+                  />
+                </div>
+                <span className="sr-only">Switch to {lang.code}</span>
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('en')}>
-                <span>🇳🇿</span>
-                <span className="ml-2">English</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('pt')}>
-                <span>🇧🇷</span>
-                <span className="ml-2">Português</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('es')}>
-                <span>🇦🇷</span>
-                <span className="ml-2">Español</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            ))}
+          </div>
         </div>
       </div>
     </header>
