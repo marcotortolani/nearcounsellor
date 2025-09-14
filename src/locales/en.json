@@ -77,6 +77,7 @@
   "booking_form_submitted_description": "Your booking has been submitted.",
   "booking_form_error_title": "Error submiting the form",
   "booking_form_error_description": "Please fill out all the fields.",
+  "thanks_message_form_submitted": "Your testimonial was submitted. It is awaiting approval. You will get an email when it is posted.",
   "contact_us_title": "Contact her",
   "contact_us_description": "Ready to take the next step? Reach out to schedule your free initial session.",
   "footer_rights_reserved": "All rights reserved.",

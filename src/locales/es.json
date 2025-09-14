@@ -77,6 +77,7 @@
   "booking_form_submitted_description": "Tu reserva ha sido enviada.",
   "booking_form_error_title": "Error enviando el formulario",
   "booking_form_error_description": "Por favor, rellena todos los campos.",
+  "thanks_message_form_submitted": "Tu testimonio fue enviado. Está pendiente de aprobación. Vas a recibir un email cuando sea publicado.",
   "contact_us_title": "Contactala",
   "contact_us_description": "¿Listo para dar el siguiente paso? Ponete en contacto para programar tu sesión inicial gratuita.",
   "footer_rights_reserved": "Todos los derechos reservados.",

@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -26,6 +26,8 @@ import {
 import { countries, getCountryFlag } from '@/lib/countries'
 import { useToast } from '@/hooks/use-toast'
 import { useLanguage } from '@/contexts/language-context'
+import { Card, CardContent } from './ui/card'
+import { CheckCircle2 } from 'lucide-react'
 
 const messageMaxLength = 500
 
@@ -44,6 +46,7 @@ const formSchema = z.object({
 export function TestimonialForm() {
   const { toast } = useToast()
   const { t } = useLanguage()
+  const [showPopUp, setShowPopUp] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,6 +82,7 @@ export function TestimonialForm() {
           title: t('testimonial_form_submitted_title'),
           description: t('testimonial_form_submitted_description'),
         })
+        setShowPopUp(true)
         form.reset()
       } else {
         throw new Error(result.message || 'Testimonial submission failed')
@@ -93,21 +97,71 @@ export function TestimonialForm() {
     }
   }
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleFormSubmit)}
-        className="space-y-8"
-      >
-        <div className="grid md:grid-cols-2 gap-8">
+    <div className=" relative w-full h-full">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleFormSubmit)}
+          className="relative space-y-8"
+        >
+          <div className="grid md:grid-cols-2 gap-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('testimonial_form_name_label')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t('testimonial_form_name_placeholder')}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('testimonial_form_country_label')}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={t(
+                            'testimonial_form_country_placeholder'
+                          )}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {countries.map((c) => (
+                        <SelectItem key={c.code} value={c.code}>
+                          {getCountryFlag(c.code)} {c.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
             control={form.control}
-            name="name"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('testimonial_form_name_label')}</FormLabel>
+                <FormLabel>{t('booking_form_email_label')}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={t('testimonial_form_name_placeholder')}
+                    placeholder={t('booking_form_email_placeholder')}
                     {...field}
                   />
                 </FormControl>
@@ -115,82 +169,55 @@ export function TestimonialForm() {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
-            name="country"
+            name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('testimonial_form_country_label')}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={t('testimonial_form_country_placeholder')}
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {countries.map((c) => (
-                      <SelectItem key={c.code} value={c.code}>
-                        {getCountryFlag(c.code)} {c.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className=" flex items-start justify-between">
+                  <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
+                  <span className="text-xs text-muted-foreground">
+                    {messageLength}/{messageMaxLength}
+                  </span>
+                </div>
+                <FormControl>
+                  <Textarea
+                    placeholder={t('testimonial_form_message_placeholder')}
+                    className="resize-none"
+                    rows={5}
+                    {...field}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('booking_form_email_label')}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={t('booking_form_email_placeholder')}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <div className=" flex items-start justify-between">
-                <FormLabel>{t('testimonial_form_message_label')}</FormLabel>
-                <span className="text-xs text-muted-foreground">
-                  {messageLength}/{messageMaxLength}
-                </span>
-              </div>
-              <FormControl>
-                <Textarea
-                  placeholder={t('testimonial_form_message_placeholder')}
-                  className="resize-none"
-                  rows={5}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" size="lg" className="w-full">
-          {t('testimonial_form_submit_button')}
-        </Button>
-      </form>
-    </Form>
+          <Button type="submit" size="lg" className="w-full">
+            {t('testimonial_form_submit_button')}
+          </Button>
+        </form>
+      </Form>
+      <div
+        className={`${
+          showPopUp
+            ? ' translate-y-0 opacity-100 '
+            : ' translate-y-[110%] opacity-0 '
+        } absolute top-0 left-0 w-full h-full flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-lg transition-all duration-300 ease-in-out`}
+      >
+        <Card className=" w-5/6 bg-primary border-primary/50 text-center">
+          <CardContent className="p-8">
+            <CheckCircle2 className="w-16 h-16 text-primary-foreground mx-auto mb-4" />
+            <h3 className="font-headline text-2xl font-bold mb-2">
+              {t('testimonial_form_submitted_title')}
+            </h3>
+            <p className="text-muted-foreground">
+              {t('thanks_message_form_submitted')}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }

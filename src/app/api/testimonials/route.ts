@@ -14,7 +14,10 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = new FormData()
-    formData.append('access_key', process.env.WEB3FORMS_ACCESS_KEY!)
+    formData.append(
+      'access_key',
+      process.env.WEB3FORMS_TESTIMONIALS_ACCESS_KEY!
+    )
     formData.append('subject', 'New testimonial')
     formData.append('name', name)
     formData.append('email', email)
