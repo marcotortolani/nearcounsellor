@@ -1,4 +1,4 @@
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss'
 
 export default {
   darkMode: ['class'],
@@ -10,9 +10,9 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: '2rem',
       screens: {
-        "2xl": "1400px",
+        '2xl': '1400px',
       },
     },
     extend: {
@@ -20,6 +20,7 @@ export default {
         body: ['PT Sans', 'sans-serif'],
         headline: ['Alegreya', 'serif'],
         code: ['monospace'],
+        quintessential: ['Quintessential', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -73,6 +74,7 @@ export default {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -103,4 +105,4 @@ export default {
     },
   },
   plugins: [require('tailwindcss-animate')],
-} satisfies Config;
+} satisfies Config

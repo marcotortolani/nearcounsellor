@@ -21,7 +21,11 @@ export function Header() {
           <span className="font-headline text-xl md:text-2xl font-bold text-primary">
             {t('site_title')}
           </span>
-          <span className="-mt-2 md:text-lg font-light text-center w-full tracking-wider italic ">
+          <span
+            className={
+              '-mt-2 md:text-lg font-quintessential font-semibold text-neutral-700 text-center w-full tracking-wider italic '
+            }
+          >
             {t('site_slogan')}
           </span>
         </Link>
@@ -40,6 +44,9 @@ export function Header() {
             className="transition-colors hover:text-primary"
           >
             {t('who_is_cinthia?')}
+          </Link>
+          <Link href="/#faqs" className="transition-colors hover:text-primary">
+            {t('how_it_began?')}
           </Link>
           <Link
             href="/#contact"
