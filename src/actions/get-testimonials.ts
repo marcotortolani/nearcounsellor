@@ -3,7 +3,8 @@
 import Papa from 'papaparse'
 import { Testimonial } from '@/components/testimonial-card'
 
-const SPREADSHEET_URL = process.env.NEXT_PUBLIC_TESTIMONIALS_CSV as string
+const SPREADSHEET_URL =
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTr-i6qpC7Qi338v-ioxMqa7mVXJ1wqi3gd7WmfloputTGjPr2D0WP8c_KO0WSExqrWFkRTMJpAifo-/pub?gid=0&single=true&output=csv'
 
 // function detectLanguage(text: string): 'en' | 'es' | 'pt' {
 //   // Basic detection, can be improved
