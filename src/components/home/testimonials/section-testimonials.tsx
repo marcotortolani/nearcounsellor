@@ -37,7 +37,6 @@ export default function SectionTestimonials() {
     loadTestimonials()
   }, [])
 
-
   return (
     <section id="testimonials" className="py-16 md:py-24">
       <div className="container mx-auto px-4">
@@ -49,6 +48,13 @@ export default function SectionTestimonials() {
             {t('who_is_cinthia_description')}
           </p>
         </div>
+        
+        {testimonials?.length === 0 && (
+          <div className="text-center w-full max-w-3xl py-4 mx-auto flex items-center justify-center gap-2">
+            <span className=" w-6 h-6 border-t-2 border-b-2 border-neutral-800 animate-spin rounded-full "></span>
+            <span className=" capitalize">{t('loading')}...</span>
+          </div>
+        )}
 
         <Carousel
           opts={{

@@ -1,4 +1,4 @@
-'use server'
+// 'use server'
 
 import Papa from 'papaparse'
 import { Testimonial } from '@/components/testimonial-card'

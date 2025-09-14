@@ -94,5 +94,6 @@
   "sort_by_date_label": "Ordenar por data",
   "sort_newest": "Mais recentes",
   "sort_oldest": "Mais antigos",
-  "all_languages": "Todos os idiomas"
+  "all_languages": "Todos os idiomas",
+  "loading": "carregando"
 }

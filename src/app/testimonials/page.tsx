@@ -52,7 +52,6 @@ export default function TestimonialsPage() {
     setFilteredTestimonials(result)
   }, [testimonials, languageFilter, sortOrder])
 
-
   const recentTestimonials = filteredTestimonials.slice(0, 3)
   const olderTestimonials = filteredTestimonials.slice(3)
 
@@ -102,6 +101,13 @@ export default function TestimonialsPage() {
             </Select>
           </div>
         </div>
+
+        {testimonials?.length === 0 && (
+          <div className="text-center w-full max-w-3xl py-4 mx-auto flex items-center justify-center gap-2">
+            <span className=" w-6 h-6 border-t-2 border-b-2 border-neutral-800 animate-spin rounded-full "></span>
+            <span className=" capitalize">{t('loading')}...</span>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {recentTestimonials.map((testimonial, index) => (
