@@ -59,13 +59,20 @@ export default function TestimonialsPage() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-16 md:py-24">
-        <div className="text-center max-w-3xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <h1 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-foreground">
             {t('testimonials_page_title')}
           </h1>
           <p className="text-lg text-muted-foreground mb-12">
             {t('testimonials_page_description')}
           </p>
+          {/* <div className=" ">
+            <Link href="#testimonial-form">
+              <Button size="lg" className="">
+                {t('share_your_experience_title')}
+              </Button>
+            </Link>
+          </div> */}
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-12">
@@ -120,7 +127,7 @@ export default function TestimonialsPage() {
           ))}
         </div>
 
-        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {olderTestimonials.map((testimonial, index) => (
             <div key={`older-${index}`}>
               <TestimonialCard
@@ -133,7 +140,10 @@ export default function TestimonialsPage() {
 
         <Separator className="my-16" />
 
-        <div className="max-w-2xl mx-auto bg-card rounded-lg p-8">
+        <div
+          className="max-w-2xl mx-auto bg-card rounded-lg p-8"
+          id="testimonial-form"
+        >
           <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">
             {t('share_your_experience_title')}
           </h3>
