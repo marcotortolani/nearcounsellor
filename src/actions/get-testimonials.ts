@@ -26,16 +26,21 @@ export async function getTestimonials() {
 
     if (!response.ok) {
       console.error('Failed to fetch spreadsheet, returning local data')
+      return []
     }
 
     const csvText = await response.text()
     const parsed = Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
+      delimiter: ',',
+      quoteChar: '"',
+      escapeChar: '"',
     })
 
     if (parsed.errors.length > 0) {
       console.error('Error parsing CSV:', parsed.errors)
+      return []
     }
 
     const sheetTestimonials: Testimonial[] = parsed.data.map((row: any) => ({
@@ -51,5 +56,6 @@ export async function getTestimonials() {
     return sheetTestimonials
   } catch (error) {
     console.error('Error fetching or parsing testimonials:', error)
+    return []
   }
 }
