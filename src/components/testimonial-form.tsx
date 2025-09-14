@@ -66,22 +66,39 @@ export function TestimonialForm() {
     //onSubmit({ ...values })
 
     try {
+      const formData = new FormData()
+      formData.append(
+        'access_key',
+        process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY as string
+      )
+      formData.append('subject', 'New testimonial')
+      formData.append('name', values.name)
+      formData.append('email', values.email)
+      formData.append('country', values.country)
+      formData.append('date', new Date().toISOString().split('T')[0])
+      formData.append('message', values.message)
+
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-          subject: 'New testimonial',
-          name: values.name,
-          email: values.email,
-          country: values.country,
-          date: new Date().toISOString().split('T')[0],
-          message: values.message,
-        }),
+        body: formData,
       })
+
+      // const response = await fetch('https://api.web3forms.com/submit', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     // Accept: 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+      //     subject: 'New testimonial',
+      //     name: values.name,
+      //     email: values.email,
+      //     country: values.country,
+      //     date: new Date().toISOString().split('T')[0],
+      //     message: values.message,
+      //   }),
+      // })
       const result = await response.json()
       if (result.success) {
         toast({

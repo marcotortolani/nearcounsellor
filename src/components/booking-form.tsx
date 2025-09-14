@@ -58,21 +58,36 @@ export function BookingForm() {
 
   const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      const formData = new FormData()
+      formData.append(
+        'access_key',
+        process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY as string
+      )
+      formData.append('subject', 'Booking a session')
+      formData.append('name', values.name)
+      formData.append('email', values.email)
+      formData.append('message', values.message)
+
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-          subject: 'Booking a session',
-          name: values.name,
-          email: values.email,
-          // country: values.country,
-          message: values.message,
-        }),
+        body: formData,
       })
+
+      // const response = await fetch('https://api.web3forms.com/submit', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     // Accept: 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+      //     subject: 'Booking a session',
+      //     name: values.name,
+      //     email: values.email,
+      //     // country: values.country,
+      //     message: values.message,
+      //   }),
+      // })
 
       const result = await response.json()
       if (result.success) {
