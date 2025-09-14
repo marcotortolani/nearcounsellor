@@ -32,29 +32,11 @@ export default function SectionTestimonials() {
     async function loadTestimonials() {
       const fetchedTestimonials = await getTestimonials()
 
-      const processedTestimonials = fetchedTestimonials?.map(
-        (testimonialData) => {
-          const testimonialWithName = testimonialData as Testimonial
-          return {
-            ...testimonialWithName,
-            // The name is now coming from the sheet, so we don't need to translate it
-            // name: t(`testimonial${index + 1}_name`),
-          }
-        }
-      )
-      setTestimonials(processedTestimonials || [])
+      setTestimonials(fetchedTestimonials || [])
     }
     loadTestimonials()
   }, [])
 
-  // const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
-  //   const newTestimonial: Testimonial = {
-  //     ...testimonial,
-  //     lang: 'en', // default lang for new testimonials
-  //     date: new Date().toISOString().split('T')[0],
-  //   }
-  //   setTestimonials((prev) => [newTestimonial, ...prev])
-  // }
 
   return (
     <section id="testimonials" className="py-16 md:py-24">

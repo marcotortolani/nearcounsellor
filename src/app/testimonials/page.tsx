@@ -29,22 +29,13 @@ export default function TestimonialsPage() {
   const [filteredTestimonials, setFilteredTestimonials] = useState<
     Testimonial[]
   >([])
-  const [languageFilter, setLanguageFilter] = useState('all')
+  const [languageFilter] = useState('all')
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest')
 
   useEffect(() => {
     async function loadTestimonials() {
       const fetchedTestimonials = await getTestimonials()
-
-      const processedTestimonials = fetchedTestimonials?.map(
-        (testimonialData) => {
-          const testimonialWithName = testimonialData as Testimonial
-          return {
-            ...testimonialWithName,
-          }
-        }
-      )
-      setTestimonials(processedTestimonials || [])
+      setTestimonials(fetchedTestimonials || [])
     }
     loadTestimonials()
   }, [])
@@ -61,14 +52,6 @@ export default function TestimonialsPage() {
     setFilteredTestimonials(result)
   }, [testimonials, languageFilter, sortOrder])
 
-  // const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
-  //   const newTestimonial: Testimonial = {
-  //     ...testimonial,
-  //     lang: 'en', // default lang for new testimonials
-  //     date: new Date().toISOString().split('T')[0],
-  //   }
-  //   setTestimonials((prev) => [newTestimonial, ...prev])
-  // }
 
   const recentTestimonials = filteredTestimonials.slice(0, 3)
   const olderTestimonials = filteredTestimonials.slice(3)
