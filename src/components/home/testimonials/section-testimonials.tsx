@@ -20,7 +20,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 
-import { allTestimonials as baseTestimonials } from '@/app/testimonials/data'
+// import { allTestimonials as baseTestimonials } from '@/app/testimonials/data'
+import { getTestimonials } from '@/actions/get-testimonials'
 
 export default function SectionTestimonials() {
   const { t } = useLanguage()
@@ -28,17 +29,32 @@ export default function SectionTestimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
 
   useEffect(() => {
-    setTestimonials(baseTestimonials)
+    async function loadTestimonials() {
+      const fetchedTestimonials = await getTestimonials()
+
+      const processedTestimonials = fetchedTestimonials?.map(
+        (testimonialData) => {
+          const testimonialWithName = testimonialData as Testimonial
+          return {
+            ...testimonialWithName,
+            // The name is now coming from the sheet, so we don't need to translate it
+            // name: t(`testimonial${index + 1}_name`),
+          }
+        }
+      )
+      setTestimonials(processedTestimonials || [])
+    }
+    loadTestimonials()
   }, [])
 
-  const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
-    const newTestimonial: Testimonial = {
-      ...testimonial,
-      lang: 'en', // default lang for new testimonials
-      date: new Date().toISOString().split('T')[0],
-    }
-    setTestimonials((prev) => [newTestimonial, ...prev])
-  }
+  // const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
+  //   const newTestimonial: Testimonial = {
+  //     ...testimonial,
+  //     lang: 'en', // default lang for new testimonials
+  //     date: new Date().toISOString().split('T')[0],
+  //   }
+  //   setTestimonials((prev) => [newTestimonial, ...prev])
+  // }
 
   return (
     <section id="testimonials" className="py-16 md:py-24">
@@ -89,7 +105,7 @@ export default function SectionTestimonials() {
           <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">
             {t('share_your_experience_title')}
           </h3>
-          <TestimonialForm onSubmit={addTestimonial} />
+          <TestimonialForm />
         </div>
       </div>
     </section>

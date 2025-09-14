@@ -42,11 +42,11 @@ const formSchema = z.object({
     }),
 })
 
-interface TestimonialFormProps {
-  onSubmit: (data: Omit<Testimonial, 'lang' | 'date'>) => void
-}
+// interface TestimonialFormProps {
+//   onSubmit: (data: Omit<Testimonial, 'lang' | 'date'>) => void
+// }
 
-export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
+export function TestimonialForm() {
   const { toast } = useToast()
   const { t } = useLanguage()
 
@@ -63,7 +63,7 @@ export function TestimonialForm({ onSubmit }: TestimonialFormProps) {
   const messageLength = form.watch('message')?.length
 
   const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
-    onSubmit({ ...values })
+    //onSubmit({ ...values })
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {

@@ -11,7 +11,6 @@ export type Testimonial = {
   // photo?: string | null
   // photoHint?: string
   date: string // YYYY-MM-DD
-  lang: 'en' | 'es' | 'pt'
 }
 
 interface TestimonialCardProps {

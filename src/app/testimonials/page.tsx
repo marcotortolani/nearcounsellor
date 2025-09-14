@@ -8,7 +8,8 @@ import {
   type Testimonial,
 } from '@/components/testimonial-card'
 import { useLanguage } from '@/contexts/language-context'
-import { allTestimonials as baseTestimonials } from './data'
+
+import { getTestimonials } from '@/actions/get-testimonials'
 import {
   Select,
   SelectContent,
@@ -18,7 +19,7 @@ import {
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { TestimonialForm } from '@/components/testimonial-form'
-import { Separator } from "@radix-ui/react-dropdown-menu"
+import { Separator } from '@radix-ui/react-dropdown-menu'
 
 type SortOrder = 'newest' | 'oldest'
 
@@ -32,15 +33,24 @@ export default function TestimonialsPage() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest')
 
   useEffect(() => {
-    setTestimonials(baseTestimonials)
+    async function loadTestimonials() {
+      const fetchedTestimonials = await getTestimonials()
+
+      const processedTestimonials = fetchedTestimonials?.map(
+        (testimonialData) => {
+          const testimonialWithName = testimonialData as Testimonial
+          return {
+            ...testimonialWithName,
+          }
+        }
+      )
+      setTestimonials(processedTestimonials || [])
+    }
+    loadTestimonials()
   }, [])
 
   useEffect(() => {
     let result = [...testimonials]
-
-    if (languageFilter !== 'all') {
-      result = result.filter((t) => t.lang === languageFilter)
-    }
 
     result.sort((a, b) => {
       const dateA = new Date(a.date).getTime()
@@ -51,14 +61,14 @@ export default function TestimonialsPage() {
     setFilteredTestimonials(result)
   }, [testimonials, languageFilter, sortOrder])
 
-  const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
-    const newTestimonial: Testimonial = {
-      ...testimonial,
-      lang: 'en', // default lang for new testimonials
-      date: new Date().toISOString().split('T')[0],
-    }
-    setTestimonials((prev) => [newTestimonial, ...prev])
-  }
+  // const addTestimonial = (testimonial: Omit<Testimonial, 'lang' | 'date'>) => {
+  //   const newTestimonial: Testimonial = {
+  //     ...testimonial,
+  //     lang: 'en', // default lang for new testimonials
+  //     date: new Date().toISOString().split('T')[0],
+  //   }
+  //   setTestimonials((prev) => [newTestimonial, ...prev])
+  // }
 
   const recentTestimonials = filteredTestimonials.slice(0, 3)
   const olderTestimonials = filteredTestimonials.slice(3)
@@ -77,7 +87,7 @@ export default function TestimonialsPage() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-12">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <Label htmlFor="language-filter">
               {t('filter_by_language_label')}
             </Label>
@@ -92,7 +102,7 @@ export default function TestimonialsPage() {
                 <SelectItem value="es">Español</SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2">
             <Label htmlFor="sort-order">{t('sort_by_date_label')}</Label>
             <Select
@@ -138,7 +148,7 @@ export default function TestimonialsPage() {
           <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">
             {t('share_your_experience_title')}
           </h3>
-          <TestimonialForm onSubmit={addTestimonial} />
+          <TestimonialForm />
         </div>
       </main>
       <Footer />
