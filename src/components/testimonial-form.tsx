@@ -26,7 +26,6 @@ import {
 import { countries, getCountryFlag } from '@/lib/countries'
 import { useToast } from '@/hooks/use-toast'
 import { useLanguage } from '@/contexts/language-context'
-import { Testimonial } from './testimonial-card'
 
 const messageMaxLength = 500
 
@@ -41,10 +40,6 @@ const formSchema = z.object({
       message: `Message must be less than ${messageMaxLength} characters.`,
     }),
 })
-
-// interface TestimonialFormProps {
-//   onSubmit: (data: Omit<Testimonial, 'lang' | 'date'>) => void
-// }
 
 export function TestimonialForm() {
   const { toast } = useToast()
@@ -63,59 +58,40 @@ export function TestimonialForm() {
   const messageLength = form.watch('message')?.length
 
   const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
-    //onSubmit({ ...values })
-
     try {
-      const formData = new FormData()
-      formData.append(
-        'access_key',
-        process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY as string
-      )
-      formData.append('subject', 'New testimonial')
-      formData.append('name', values.name)
-      formData.append('email', values.email)
-      formData.append('country', values.country)
-      formData.append('date', new Date().toISOString().split('T')[0])
-      formData.append('message', values.message)
-
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/testimonials', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          country: values.country,
+          message: values.message,
+        }),
       })
 
-      // const response = await fetch('https://api.web3forms.com/submit', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     // Accept: 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-      //     subject: 'New testimonial',
-      //     name: values.name,
-      //     email: values.email,
-      //     country: values.country,
-      //     date: new Date().toISOString().split('T')[0],
-      //     message: values.message,
-      //   }),
-      // })
       const result = await response.json()
+
       if (result.success) {
         toast({
           title: t('testimonial_form_submitted_title'),
           description: t('testimonial_form_submitted_description'),
         })
         form.reset()
+      } else {
+        throw new Error(result.message || 'Testimonial submission failed')
       }
     } catch (error) {
-      console.error(error)
+      console.error('Testimonial submission error:', error)
       toast({
         title: t('testimonial_form_error_title'),
         description: t('testimonial_form_error_description'),
+        variant: 'destructive',
       })
     }
   }
-
   return (
     <Form {...form}>
       <form
