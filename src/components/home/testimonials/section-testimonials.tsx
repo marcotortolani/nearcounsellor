@@ -20,7 +20,6 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 
-// import { allTestimonials as baseTestimonials } from '@/app/testimonials/data'
 import { getTestimonials } from '@/actions/get-testimonials'
 
 export default function SectionTestimonials() {
@@ -48,7 +47,7 @@ export default function SectionTestimonials() {
             {t('who_is_cinthia_description')}
           </p>
         </div>
-        
+
         {testimonials?.length === 0 && (
           <div className="text-center w-full max-w-3xl py-4 mx-auto flex items-center justify-center gap-2">
             <span className=" w-6 h-6 border-t-2 border-b-2 border-neutral-800 animate-spin rounded-full "></span>
