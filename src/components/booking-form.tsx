@@ -58,47 +58,31 @@ export function BookingForm() {
 
   const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const formData = new FormData()
-      formData.append(
-        'access_key',
-        process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY as string
-      )
-      formData.append('subject', 'Booking a session')
-      formData.append('name', values.name)
-      formData.append('email', values.email)
-      formData.append('message', values.message)
-
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/booking', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          message: values.message,
+        }),
       })
 
-      // const response = await fetch('https://api.web3forms.com/submit', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     // Accept: 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-      //     subject: 'Booking a session',
-      //     name: values.name,
-      //     email: values.email,
-      //     // country: values.country,
-      //     message: values.message,
-      //   }),
-      // })
-
       const result = await response.json()
+
       if (result.success) {
         toast({
           title: t('booking_form_submitted_title'),
           description: t('booking_form_submitted_description'),
         })
         form.reset()
+      } else {
+        throw new Error(result.message || 'Form submission failed')
       }
     } catch (error) {
-      console.error(error)
+      console.error('Form submission error:', error)
       toast({
         title: t('booking_form_error_title'),
         description: t('booking_form_error_description'),
@@ -106,6 +90,57 @@ export function BookingForm() {
       })
     }
   }
+
+  // const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   try {
+  //     const formData = new FormData()
+  //     formData.append(
+  //       'access_key',
+  //       process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY as string
+  //     )
+  //     formData.append('subject', 'Booking a session')
+  //     formData.append('name', values.name)
+  //     formData.append('email', values.email)
+  //     formData.append('message', values.message)
+
+  //     const response = await fetch('https://api.web3forms.com/submit', {
+  //       method: 'POST',
+  //       body: formData,
+  //     })
+
+  //     // const response = await fetch('https://api.web3forms.com/submit', {
+  //     //   method: 'POST',
+  //     //   headers: {
+  //     //     'Content-Type': 'application/json',
+  //     //     // Accept: 'application/json',
+  //     //   },
+  //     //   body: JSON.stringify({
+  //     //     access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+  //     //     subject: 'Booking a session',
+  //     //     name: values.name,
+  //     //     email: values.email,
+  //     //     // country: values.country,
+  //     //     message: values.message,
+  //     //   }),
+  //     // })
+
+  //     const result = await response.json()
+  //     if (result.success) {
+  //       toast({
+  //         title: t('booking_form_submitted_title'),
+  //         description: t('booking_form_submitted_description'),
+  //       })
+  //       form.reset()
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //     toast({
+  //       title: t('booking_form_error_title'),
+  //       description: t('booking_form_error_description'),
+  //       variant: 'destructive',
+  //     })
+  //   }
+  // }
 
   return (
     <Form {...form}>
