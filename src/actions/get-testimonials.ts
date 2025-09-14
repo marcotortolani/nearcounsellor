@@ -20,7 +20,7 @@ export async function getTestimonials() {
   try {
     const response = await fetch(SPREADSHEET_URL, {
       next: {
-        revalidate: 3600, // Revalidate every hour
+        revalidate: 5, // Revalidate every hour
       },
     })
 
