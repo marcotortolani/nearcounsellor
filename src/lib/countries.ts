@@ -247,9 +247,12 @@ export const countries = [
 export const getCountryFlag = (countryCode: string) => {
   const country = countries.find((c) => c.code === countryCode)
   if (!country) return ''
-  const codePoints = country.code
-    .toUpperCase()
-    .split('')
-    .map((char) => 127397 + char.charCodeAt(0))
-  return String.fromCodePoint(...codePoints)
+
+  return `https://flagicons.lipis.dev/flags/4x3/${country.code.toLocaleLowerCase()}.svg`
+
+  // const codePoints = country.code
+  //   .toUpperCase()
+  //   .split('')
+  //   .map((char) => 127397 + char.charCodeAt(0))
+  // return String.fromCodePoint(...codePoints)
 }

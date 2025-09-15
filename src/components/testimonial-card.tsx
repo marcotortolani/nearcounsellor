@@ -1,7 +1,9 @@
+'use client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { getCountryFlag } from '@/lib/countries'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 export type Testimonial = {
   name: string
@@ -65,9 +67,16 @@ export function TestimonialCard({
           <div>
             <p className="font-semibold">{name}</p>
             <div className="flex items-center gap-2">
-              <p className="text-sm text-muted-foreground">
+              {/* <p className="text-sm text-muted-foreground">
                 {getCountryFlag(country)}
-              </p>
+              </p> */}
+              <Image
+                src={getCountryFlag(country)}
+                alt={country}
+                width={20}
+                height={20}
+              />
+
               <p className="text-xs text-muted-foreground/80">
                 {maskEmail(email)}
               </p>
