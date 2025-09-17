@@ -28,6 +28,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent } from './ui/card'
 import { CheckCircle2 } from 'lucide-react'
+import Image from 'next/image'
 
 const messageMaxLength = 500
 
@@ -142,7 +143,15 @@ export function TestimonialForm() {
                     <SelectContent>
                       {countries.map((c) => (
                         <SelectItem key={c.code} value={c.code}>
-                          {getCountryFlag(c.code)} {c.name}
+                          <div className=" flex items-center gap-2">
+                            <Image
+                              src={getCountryFlag(c.code)}
+                              alt={c.name}
+                              width={20}
+                              height={20}
+                            />
+                            <span>{c.name}</span>
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
