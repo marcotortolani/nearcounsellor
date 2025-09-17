@@ -30,7 +30,7 @@ import { Card, CardContent } from './ui/card'
 import { CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 
-const messageMaxLength = 500
+const messageMaxLength = 2000
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
