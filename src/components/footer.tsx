@@ -7,7 +7,7 @@ import { useLanguage } from "@/contexts/language-context"
 export function Footer() {
   const { t } = useLanguage()
   return (
-    <footer id="contact" className="bg-card border-t">
+    <footer id="contact" className="relative bg-card border-t pb-14 md:pb-8">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
             <h3 className="font-headline text-2xl font-bold mb-2">{t('contact_us_title')}</h3>
