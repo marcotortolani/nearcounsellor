@@ -13,6 +13,7 @@ import {
   BookOpen,
   Send,
   CheckCircle2,
+  CalendarCheck
 } from 'lucide-react'
 // import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -216,14 +217,14 @@ export default function Home() {
         <SectionTestimonials />
         <SectionFAQS />
       </main>
-      {/* <div className=" lg:hidden z-50 w-full px-4 py-8 sticky bottom-0 flex items-center justify-end ">
+      <div className=" z-50 pb-4 w-full fixed bottom-0 lg:bottom-6 left-2 md:left-6 xl:left-10 md:-translate-x-6 xl:translate-x-0  flex items-center justify-start ">
         <Button
           asChild
           className=" bg-primary-foreground text-neutral-100 hover:bg-primary-foreground/90 shadow-black/60 shadow-md "
         >
-          <Link href="/booking">{t('book_session_button')}</Link>
+          <Link href="/booking"><span className=' hidden md:block'>{t('book_session_button')}</span><CalendarCheck className=' md:hidden' /></Link>
         </Button>
-      </div> */}
+      </div>
       <WhatsAppButton />
       <Footer />
     </div>

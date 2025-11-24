@@ -11,7 +11,7 @@ export function WhatsAppButton() {
   }
 
   return (
-    <div className="fixed bottom-0 lg:bottom-6 right-6 xl:right-10 md:-translate-x-6 xl:translate-x-0 z-50 pb-6">
+    <div className="fixed bottom-0 lg:bottom-6 right-2 xl:right-10 md:-translate-x-6 xl:translate-x-0 z-50 pb-4">
       <div className="sticky bottom-6 right-0">
         <button
           onClick={handleClick}

@@ -10,10 +10,10 @@ export default function BookingPage() {
   const { t } = useLanguage()
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="w-full flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-16 md:py-24">
-        <div className="text-center max-w-3xl mx-auto">
+      <main className="flex-grow container mx-auto px-4 py-16 md:py-24 ">
+        <div className="w-full text-center max-w-screen-xl mx-auto">
           <h1 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-foreground">
             {t('booking_page_title')}
           </h1>
@@ -22,19 +22,19 @@ export default function BookingPage() {
           </p>
 
           <div
-            className="bg-card p-4 rounded-lg shadow-sm"
-            style={{ minHeight: '300px' }}
+            className="w-full h-full flex items-center justify-center bg-card p-0 lg:p-4 rounded-xl shadow-sm border border-neutral-500"
           >
-            <BookingForm />
-            {/* Placeholder for Calendly embed */}
-            {/* <div className="flex items-center justify-center h-full border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">
-                {t('booking_page_calendly_placeholder')}
-              </p>
-            </div> */}
+            {/* <BookingForm /> */}
+            <iframe
+              src="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1sknYkD57MZ4AmtOJ4HjRdxIq2vVwdV0EDMyiC3vv6x021N5FA_BXOm1eavnSX5_WUrjHLSdw_"
+              frameBorder="0"
+              width="100%" height="100%"
+              className='p-0 px-1 2xl:w-[1200px] w-full h-[1600px] md:h-[900px] lg:h-[840px] '>
+
+            </iframe>
           </div>
 
-          <p className="text-muted-foreground mt-8">
+          <p className="px-4 text-muted-foreground mt-8">
             {t('booking_page_contact_prompt_start')}{' '}
             <Link
               href="mailto:info@nearcounselling.co.nz"
