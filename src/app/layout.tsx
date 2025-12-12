@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
+
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { LanguageProvider } from '@/contexts/language-context'
-import { WhatsAppButton } from '@/components/WhatsAppButton'
 
 export const metadata: Metadata = {
   title: 'Near Counselling',
@@ -31,7 +31,6 @@ export default function RootLayout({
       <body className=" font-body antialiased overflow-x-hidden">
         <LanguageProvider>{children}</LanguageProvider>
         <Toaster />
-        
       </body>
     </html>
   )
