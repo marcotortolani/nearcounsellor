@@ -1,3 +1,5 @@
+// components/testimonial-form.tsx
+
 'use client'
 
 import { useState } from 'react'
@@ -63,15 +65,20 @@ export function TestimonialForm() {
 
   const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await fetch('/api/testimonials', {
+      // Enviar directamente a Web3Forms desde el cliente
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_TESTIMONIALS_ACCESS_KEY,
+          subject: 'New testimonial',
           name: values.name,
           email: values.email,
           country: values.country,
+          date: new Date().toISOString().split('T')[0],
           message: values.message,
         }),
       })
@@ -97,6 +104,43 @@ export function TestimonialForm() {
       })
     }
   }
+
+  // const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   try {
+  //     const response = await fetch('/api/testimonials', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         name: values.name,
+  //         email: values.email,
+  //         country: values.country,
+  //         message: values.message,
+  //       }),
+  //     })
+
+  //     const result = await response.json()
+
+  //     if (result.success) {
+  //       toast({
+  //         title: t('testimonial_form_submitted_title'),
+  //         description: t('testimonial_form_submitted_description'),
+  //       })
+  //       setShowPopUp(true)
+  //       form.reset()
+  //     } else {
+  //       throw new Error(result.message || 'Testimonial submission failed')
+  //     }
+  //   } catch (error) {
+  //     console.error('Testimonial submission error:', error)
+  //     toast({
+  //       title: t('testimonial_form_error_title'),
+  //       description: t('testimonial_form_error_description'),
+  //       variant: 'destructive',
+  //     })
+  //   }
+  // }
   return (
     <div className=" relative w-full h-full">
       <Form {...form}>

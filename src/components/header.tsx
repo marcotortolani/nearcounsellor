@@ -1,3 +1,4 @@
+// components/header.tsx
 'use client'
 
 import Link from 'next/link'
@@ -93,7 +94,7 @@ export function Header() {
                     src={lang.flag}
                     alt={`${lang.name} flag`}
                     fill
-                    objectFit="cover"
+                    className=" object-cover"
                   />
                 </div>
                 <span className="sr-only">Switch to {lang.code}</span>

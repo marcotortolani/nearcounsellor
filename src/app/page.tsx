@@ -13,7 +13,7 @@ import {
   BookOpen,
   Send,
   CheckCircle2,
-  CalendarCheck
+  CalendarCheck,
 } from 'lucide-react'
 // import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -74,10 +74,8 @@ export default function Home() {
                           <Image
                             src={image.src}
                             alt={`Cinthia image ${index + 1}`}
-                            objectPosition="center"
-                            objectFit="cover"
                             fill
-                            className=" hover:scale-105 transition-transform duration-300  "
+                            className=" object-cover object-center hover:scale-105 transition-transform duration-300  "
                             data-ai-hint={image.hint}
                           />
                         </div>
@@ -222,9 +220,11 @@ export default function Home() {
           asChild
           className=" bg-primary-foreground text-neutral-100 hover:bg-primary-foreground/90 shadow-black/60 shadow-md "
         >
-          <Link href="/booking" className='md:flex xl:gap-4'>
+          <Link href="/booking" className="md:flex xl:gap-4">
             <CalendarCheck />
-            <span className=' hidden md:block xl:font-bold xl:text-base'>{t('book_session_button')}</span>
+            <span className=" hidden md:block xl:font-bold xl:text-base">
+              {t('book_session_button')}
+            </span>
           </Link>
         </Button>
       </div>
